@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f5f5f4;
+  /* Warm stone neutral */
+  color: #1c1917;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}

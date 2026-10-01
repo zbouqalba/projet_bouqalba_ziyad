@@ -1,0 +1,96 @@
+<div class="card-container">
+    @if (!submittedData) {
+    <div class="form-header">
+        <h2>Créer un compte</h2>
+        <p>Remplissez le formulaire ci-dessous pour vous inscrire</p>
+    </div>
+
+    <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm.valid)" class="signup-form">
+        <div class="form-group">
+            <label for="login">Identifiant</label>
+            <input id="login" type="text" name="login" [(ngModel)]="user.login" #login="ngModel" required>
+            @if (login.invalid && login.touched) {
+            <span class="error-msg">L'identifiant est requis.</span>
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="firstName">Prénom</label>
+                <input id="firstName" type="text" name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel"
+                    required>
+                @if (firstName.invalid && firstName.touched) {
+                <span class="error-msg">Le prénom est requis.</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Nom</label>
+                <input id="lastName" type="text" name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel"
+                    required>
+                @if (lastName.invalid && lastName.touched) {
+                <span class="error-msg">Le nom est requis.</span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Adresse E-mail</label>
+            <input id="email" type="email" name="email" [(ngModel)]="user.email" #email="ngModel" required>
+            @if (email.invalid && email.touched) {
+            <span class="error-msg">Veuillez entrer une adresse e-mail valide.</span>
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input id="password" type="password" name="password" [(ngModel)]="user.password" #password="ngModel"
+                    required>
+                @if (password.invalid && password.touched) {
+                <span class="error-msg">Le mot de passe est requis.</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="passwordConfirm">Confirmation</label>
+                <input id="passwordConfirm" type="password" name="passwordConfirm" [(ngModel)]="user.passwordConfirm"
+                    #passwordConfirm="ngModel" required>
+
+                @if (user.password !== user.passwordConfirm && passwordConfirm.touched && password.touched) {
+                <span class="error-msg">Les mots de passe ne correspondent pas.</span>
+                }
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn"
+            [disabled]="signupForm.invalid || user.password !== user.passwordConfirm">
+            S'inscrire / Se connecter
+        </button>
+    </form>
+    } @else {
+    <div class="success-card">
+        <h2>Bienvenue, {{ submittedData.firstName }} {{ submittedData.lastName }} !</h2>
+        <p class="success-subtitle">Vos informations de connexion :</p>
+
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Identifiant :</span>
+                <span class="info-value">{{ submittedData.login }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Nom complet :</span>
+                <span class="info-value">{{ submittedData.firstName }} {{ submittedData.lastName }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Adresse E-mail :</span>
+                <span class="info-value">{{ submittedData.email }}</span>
+            </div>
+        </div>
+
+        <button (click)="resetForm()" class="reset-btn">
+            Se déconnecter
+        </button>
+    </div>
+    }
+</div>
