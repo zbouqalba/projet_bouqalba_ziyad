@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './signup-form.scss',
 })
 export class SignupForm {
+  @Output() showPollutionForm = new EventEmitter<void>();
+
   user = {
     login: '',
     password: '',
@@ -23,6 +25,10 @@ export class SignupForm {
     if (formValid && this.user.password === this.user.passwordConfirm) {
       this.submittedData = { ...this.user };
     }
+  }
+
+  onBienvenueClick(): void {
+    this.showPollutionForm.emit();
   }
 
   resetForm(): void {

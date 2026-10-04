@@ -1,0 +1,85 @@
+<div class="card-container">
+    <div class="form-header">
+        <h2>Déclarer une pollution</h2>
+        <p>Remplissez le formulaire ci-dessous pour signaler une pollution</p>
+    </div>
+
+    <form [formGroup]="pollutionForm" (ngSubmit)="onSubmit()" class="pollution-form">
+        <div class="form-group">
+            <label for="title">Titre de la pollution</label>
+            <input id="title" type="text" formControlName="title" placeholder="Ex: Déchet plastique en rivière">
+            @if (pollutionForm.controls.title.invalid && pollutionForm.controls.title.touched) {
+            <span class="error-msg">Le titre de la pollution est requis.</span>
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="typePollution">Type de pollution</label>
+                <select id="typePollution" formControlName="typePollution">
+                    <option value="" disabled selected>Sélectionner le type</option>
+                    <option value="Plastique">Plastique</option>
+                    <option value="Chimique">Chimique</option>
+                    <option value="Dépôt sauvage">Dépôt sauvage</option>
+                    <option value="Eau">Eau</option>
+                    <option value="Air">Air</option>
+                    <option value="Autre">Autre</option>
+                </select>
+                @if (pollutionForm.controls.typePollution.invalid && pollutionForm.controls.typePollution.touched) {
+                <span class="error-msg">Le type de pollution est requis.</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date de l'observation</label>
+                <input id="date" type="date" formControlName="date">
+                @if (pollutionForm.controls.date.invalid && pollutionForm.controls.date.touched) {
+                <span class="error-msg">La date est requise.</span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lieu">Lieu</label>
+            <input id="lieu" type="text" formControlName="lieu" placeholder="Ex: Berges de la Seine, Paris">
+            @if (pollutionForm.controls.lieu.invalid && pollutionForm.controls.lieu.touched) {
+            <span class="error-msg">Le lieu est requis.</span>
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="latitude">Latitude</label>
+                <input id="latitude" type="number" step="any" formControlName="latitude" placeholder="Ex: 48.8566">
+                @if (pollutionForm.controls.latitude.invalid && pollutionForm.controls.latitude.touched) {
+                <span class="error-msg">La latitude est requise.</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">Longitude</label>
+                <input id="longitude" type="number" step="any" formControlName="longitude" placeholder="Ex: 2.3522">
+                @if (pollutionForm.controls.longitude.invalid && pollutionForm.controls.longitude.touched) {
+                <span class="error-msg">La longitude est requise.</span>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" rows="3" formControlName="description" placeholder="Décrivez les détails de la pollution observée..."></textarea>
+            @if (pollutionForm.controls.description.invalid && pollutionForm.controls.description.touched) {
+            <span class="error-msg">La description est requise.</span>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="photo">Photo (URL) <span class="optional">(optionnel)</span></label>
+            <input id="photo" type="text" formControlName="photo" placeholder="Ex: https://exemple.com/photo.jpg">
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="pollutionForm.invalid">
+            Déclarer
+        </button>
+    </form>
+</div>
