@@ -9,7 +9,7 @@ export interface PollutionData {
   lieu: string;
   latitude: string;
   longitude: string;
-  photo: string;
+  photo?: string | null;
 }
 
 @Component({
@@ -21,15 +21,17 @@ export interface PollutionData {
 export class PollutionForm {
   @Output() showPollutionRecap = new EventEmitter<PollutionData>();
 
+  today = new Date().toISOString().split('T')[0];
+
   pollutionForm = new FormGroup({
-    title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    title: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(100)] }),
     typePollution: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    description: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(10)] }),
     date: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     lieu: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    latitude: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    longitude: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    photo: new FormControl('', { nonNullable: true }),
+    latitude: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.min(-90), Validators.max(90)] }),
+    longitude: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.min(-180), Validators.max(180)] }),
+    photo: new FormControl<string | null>(null),
   });
 
   onSubmit() {

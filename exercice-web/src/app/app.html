@@ -1,7 +1,9 @@
 <main class="main-container">
-  @if (!showPollution) {
-    <app-signup-form (showPollutionForm)="onShowPollution()"></app-signup-form>
+  @if (pollutionData) {
+    <app-pollution-recap [data]="pollutionData"></app-pollution-recap>
+  } @else if (showPollution) {
+    <app-pollution-form (showPollutionRecap)="onShowPollutionRecap($event)"></app-pollution-form>
   } @else {
-    <app-pollution-form></app-pollution-form>
+    <app-signup-form (showPollutionForm)="onShowPollution()"></app-signup-form>
   }
 </main>
