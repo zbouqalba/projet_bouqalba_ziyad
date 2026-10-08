@@ -7,8 +7,8 @@ export interface PollutionData {
   description: string;
   date: string;
   lieu: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   photo?: string | null;
 }
 
@@ -29,8 +29,8 @@ export class PollutionForm {
     description: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(10)] }),
     date: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     lieu: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    latitude: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.min(-90), Validators.max(90)] }),
-    longitude: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.min(-180), Validators.max(180)] }),
+    latitude: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(-90), Validators.max(90)] }),
+    longitude: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(-180), Validators.max(180)] }),
     photo: new FormControl<string | null>(null),
   });
 

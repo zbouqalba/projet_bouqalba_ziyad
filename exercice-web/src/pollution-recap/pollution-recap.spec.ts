@@ -10,11 +10,11 @@ describe('PollutionRecap', () => {
     await TestBed.configureTestingModule({
       imports: [PollutionRecap]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PollutionRecap);
     component = fixture.componentInstance;
-    
+
     // Provide some dummy data for the required input
     component.data = {
       title: 'Test Title',
@@ -22,11 +22,11 @@ describe('PollutionRecap', () => {
       description: 'Test description',
       date: '2023-10-01',
       lieu: 'Test Location',
-      latitude: '48.8566',
-      longitude: '2.3522',
+      latitude: 48.8566,
+      longitude: 2.3522,
       photo: null
     };
-    
+
     fixture.detectChanges();
   });
 
