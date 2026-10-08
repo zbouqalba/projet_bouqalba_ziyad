@@ -38,6 +38,8 @@ export class PollutionForm {
     if (this.pollutionForm.valid) {
       this.showPollutionRecap.emit(this.pollutionForm.getRawValue());
       this.pollutionForm.reset();
+    } else {
+      this.pollutionForm.markAllAsTouched();
     }
   }
 }
