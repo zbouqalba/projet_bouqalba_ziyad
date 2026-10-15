@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SignupService } from '../services/signupService'
 
 @Component({
   selector: 'app-signup-form',
@@ -9,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SignupForm {
   @Output() showPollutionForm = new EventEmitter<void>();
+  private signupService = inject(SignupService)
 
   user = {
     login: '',
@@ -20,10 +22,27 @@ export class SignupForm {
   };
 
   submittedData: any = null;
+  errorMessage: string = '';
 
   onSubmit(formValid: boolean | null): void {
     if (formValid && this.user.password === this.user.passwordConfirm) {
-      this.submittedData = { ...this.user };
+      const { passwordConfirm, ...userDataToSubmit } = this.user;
+
+      this.signupService.signUp(userDataToSubmit).subscribe({
+        next: (response) => {
+          this.submittedData = {
+            ...userDataToSubmit,
+            ...response,
+          };
+          this.errorMessage = '';
+        },
+        error: (err) => {
+          console.error('Erreur lors de l\'inscription', err);
+          this.errorMessage = 'Une erreur est survenue lors de l\'inscription.';
+        }
+      });
+    } else if (this.user.password !== this.user.passwordConfirm) {
+      this.errorMessage = 'Les mots de passe ne correspondent pas.';
     }
   }
 
