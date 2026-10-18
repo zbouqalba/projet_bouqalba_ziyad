@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SignupService } from '../services/signupService'
+import { SignupService } from '../services/Signup/signupService';
 
 @Component({
   selector: 'app-signup-form',
@@ -9,8 +9,8 @@ import { SignupService } from '../services/signupService'
   styleUrl: './signup-form.scss',
 })
 export class SignupForm {
-  @Output() showPollutionForm = new EventEmitter<void>();
-  private signupService = inject(SignupService)
+  @Output() signupSuccess = new EventEmitter<any>();
+  private signupService = inject(SignupService);
 
   user = {
     login: '',
@@ -21,7 +21,6 @@ export class SignupForm {
     email: '',
   };
 
-  submittedData: any = null;
   errorMessage: string = '';
 
   onSubmit(formValid: boolean | null): void {
@@ -30,11 +29,11 @@ export class SignupForm {
 
       this.signupService.signUp(userDataToSubmit).subscribe({
         next: (response) => {
-          this.submittedData = {
+          this.errorMessage = '';
+          this.signupSuccess.emit({
             ...userDataToSubmit,
             ...response,
-          };
-          this.errorMessage = '';
+          });
         },
         error: (err) => {
           console.error('Erreur lors de l\'inscription', err);
@@ -46,12 +45,7 @@ export class SignupForm {
     }
   }
 
-  onBienvenueClick(): void {
-    this.showPollutionForm.emit();
-  }
-
   resetForm(): void {
-    this.submittedData = null;
     this.user = {
       login: '',
       password: '',

@@ -3,7 +3,9 @@
     <app-pollution-recap [data]="pollutionData"></app-pollution-recap>
   } @else if (showPollution) {
     <app-pollution-form (showPollutionRecap)="onShowPollutionRecap($event)"></app-pollution-form>
+  } @else if (signupData) {
+    <app-bienvenue [data]="signupData" (continue)="onShowPollution()"></app-bienvenue>
   } @else {
-    <app-signup-form (showPollutionForm)="onShowPollution()"></app-signup-form>
+    <app-signup-form (signupSuccess)="onSignupSuccess($event)"></app-signup-form>
   }
 </main>

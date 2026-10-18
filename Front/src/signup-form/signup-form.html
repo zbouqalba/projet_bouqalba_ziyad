@@ -1,5 +1,4 @@
 <div class="card-container">
-    @if (!submittedData) {
     <div class="form-header">
         <h2>Créer un compte</h2>
         <p>Remplissez le formulaire ci-dessous pour vous inscrire</p>
@@ -63,34 +62,13 @@
             </div>
         </div>
 
+        @if (errorMessage) {
+        <span class="error-msg global-error">{{ errorMessage }}</span>
+        }
+
         <button type="submit" class="submit-btn"
             [disabled]="signupForm.invalid || user.password !== user.passwordConfirm">
             S'inscrire / Se connecter
         </button>
     </form>
-    } @else {
-    <div class="success-card">
-        <h2>Bienvenue, {{ submittedData.firstName }} {{ submittedData.lastName }} !</h2>
-        <p class="success-subtitle">Vos informations de connexion :</p>
-
-        <div class="info-list">
-            <div class="info-item">
-                <span class="info-label">Identifiant :</span>
-                <span class="info-value">{{ submittedData.login }}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Nom complet :</span>
-                <span class="info-value">{{ submittedData.firstName }} {{ submittedData.lastName }}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Adresse E-mail :</span>
-                <span class="info-value">{{ submittedData.email }}</span>
-            </div>
-        </div>
-
-        <button (click)="onBienvenueClick()" class="reset-btn">
-            Bienvenue
-        </button>
-    </div>
-    }
 </div>

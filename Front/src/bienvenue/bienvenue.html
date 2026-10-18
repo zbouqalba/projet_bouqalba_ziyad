@@ -1,0 +1,25 @@
+<div class="card-container">
+    <div class="success-card">
+        <h2>Bienvenue, {{ data.firstName }} {{ data.lastName }} !</h2>
+        <p class="success-subtitle">Vos informations de connexion :</p>
+
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Identifiant :</span>
+                <span class="info-value">{{ data.login }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Nom complet :</span>
+                <span class="info-value">{{ data.firstName }} {{ data.lastName }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Adresse E-mail :</span>
+                <span class="info-value">{{ data.email }}</span>
+            </div>
+        </div>
+
+        <button (click)="onBienvenueClick()" class="reset-btn">
+            Bienvenue
+        </button>
+    </div>
+</div>
