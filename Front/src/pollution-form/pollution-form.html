@@ -104,6 +104,10 @@
             <input id="photo" type="text" formControlName="photo" placeholder="Ex: https://exemple.com/photo.jpg">
         </div>
 
+        @if (errorMessage) {
+        <span class="error-msg global-error">{{ errorMessage }}</span>
+        }
+
         <button type="submit" class="submit-btn" [disabled]="pollutionForm.invalid">
             Déclarer
         </button>

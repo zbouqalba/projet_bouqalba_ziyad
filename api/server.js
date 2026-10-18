@@ -27,6 +27,29 @@ app.post('/api/signup', (req, res) => {
     }, 300);
 });
 
+app.post('/api/pollution/add', (req, res) => {
+    const pollutionData = req.body;
+
+    console.log('Nouvelle requête de création reçue !');
+    console.log('Données :', pollutionData);
+
+    setTimeout(() => {
+        res.status(201).json({
+            success: true,
+            message: 'Inscription réussie avec succès !',
+            id: pollutionData.id,
+            title: pollutionData.title,
+            description: pollutionData.description,
+            date: pollutionData.date,
+            typePollution: pollutionData.typePollution,
+            lieu: pollutionData.lieu,
+            latitude: pollutionData.latitude,
+            longitude: pollutionData.longitude,
+            photo: pollutionData.photo
+        });
+    }, 300);
+});
+
 app.listen(port, () => {
     console.log(`Serveur Mock API démarré et écoute sur http://localhost:${port}`);
     console.log(`En attente des requêtes Angular...`);
