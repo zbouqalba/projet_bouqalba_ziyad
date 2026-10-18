@@ -1,12 +1,13 @@
 export type PollutionData = {
-    id: string;
-    name: string;
+    id: number;
+    title: string;
+    typePollution: string;
     description: string;
-    startDate: Date;
-    endDate: Date;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    date: string;
+    lieu: string;
+    latitude: number;
+    longitude: number;
+    photo?: string | null;
 }
 
 export type UserData = {

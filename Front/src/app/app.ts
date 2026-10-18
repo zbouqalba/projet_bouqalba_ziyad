@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { SignupForm } from '../signup-form/signup-form';
 import { Bienvenue } from '../bienvenue/bienvenue';
-import { PollutionForm, PollutionData } from '../pollution-form/pollution-form';
+import { PollutionForm } from '../pollution-form/pollution-form';
+import type { PollutionData } from '../types/types';
 import { PollutionRecap } from '../pollution-recap/pollution-recap';
-import { UserData } from '../types/types';
+import type { UserData } from '../types/types';
 
 @Component({
   selector: 'app-root',

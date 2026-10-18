@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PollutionData } from '../pollution-form/pollution-form';
+import type { PollutionData } from '../types/types';
 import { CommonModule } from '@angular/common';
 
 @Component({

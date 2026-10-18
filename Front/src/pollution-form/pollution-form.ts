@@ -1,16 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
-export interface PollutionData {
-  title: string;
-  typePollution: string;
-  description: string;
-  date: string;
-  lieu: string;
-  latitude: number;
-  longitude: number;
-  photo?: string | null;
-}
+import type { PollutionData } from '../types/types';
 
 @Component({
   selector: 'app-pollution-form',
@@ -36,7 +26,11 @@ export class PollutionForm {
 
   onSubmit() {
     if (this.pollutionForm.valid) {
-      this.showPollutionRecap.emit(this.pollutionForm.getRawValue());
+      const pollutionData: PollutionData = {
+        ...this.pollutionForm.getRawValue(),
+        id: Math.floor(Math.random() * 1000),
+      };
+      this.showPollutionRecap.emit(pollutionData);
       this.pollutionForm.reset();
     } else {
       this.pollutionForm.markAllAsTouched();
