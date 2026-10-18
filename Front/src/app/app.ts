@@ -1,32 +1,68 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SignupForm } from '../signup-form/signup-form';
 import { Bienvenue } from '../bienvenue/bienvenue';
+import { PollutionList } from '../pollution-list/pollution-list';
 import { PollutionForm } from '../pollution-form/pollution-form';
-import type { PollutionData } from '../types/types';
 import { PollutionRecap } from '../pollution-recap/pollution-recap';
-import type { UserData } from '../types/types';
+import { PollutionService } from '../services/Pollution/pollution-service';
+import type { PollutionData, UserData } from '../types/types';
 
 @Component({
   selector: 'app-root',
-  imports: [SignupForm, Bienvenue, PollutionForm, PollutionRecap],
+  imports: [SignupForm, Bienvenue, PollutionList, PollutionForm, PollutionRecap],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
   title = 'exercice-web';
-  showPollution = false;
-  pollutionData: PollutionData | null = null;
-  signupData: UserData | null = null;
+  private pollutionService = inject(PollutionService);
+
+  showPollutionList = signal(false);
+  showPollutionForm = signal(false);
+  pollutionData = signal<PollutionData | null>(null);
+  signupData = signal<UserData | null>(null);
 
   onSignupSuccess(data: UserData): void {
-    this.signupData = data;
+    this.signupData.set(data);
+    this.showPollutionList.set(false);
+    this.showPollutionForm.set(false);
+    this.pollutionData.set(null);
   }
 
-  onShowPollution(): void {
-    this.showPollution = true;
+  onShowPollutionList(): void {
+    this.showPollutionList.set(true);
+    this.showPollutionForm.set(false);
+    this.pollutionData.set(null);
   }
 
-  onShowPollutionRecap(data: PollutionData): void {
-    this.pollutionData = data;
+  onShowPollutionForm(): void {
+    this.showPollutionForm.set(true);
+    this.showPollutionList.set(false);
+    this.pollutionData.set(null);
+  }
+
+  onPollutionCreated(): void {
+    this.pollutionData.set(null);
+    this.showPollutionForm.set(false);
+    this.showPollutionList.set(true);
+  }
+
+  onViewPollutionDetail(id: number): void {
+    this.pollutionService.readPollution(id).subscribe({
+      next: (data) => {
+        this.pollutionData.set(data);
+        this.showPollutionList.set(false);
+        this.showPollutionForm.set(false);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des détails de la pollution', err);
+      }
+    });
+  }
+
+  onBackToList(): void {
+    this.pollutionData.set(null);
+    this.showPollutionList.set(true);
+    this.showPollutionForm.set(false);
   }
 }

@@ -1,0 +1,101 @@
+<div class="pollution-list-container">
+    <div class="list-header">
+        <div class="header-titles">
+            <h1>Liste des pollutions</h1>
+            <p class="subtitle">Consultez les signalements récents</p>
+        </div>
+        <button class="btn-add" (click)="onAddPollution()">
+            + Ajouter une pollution
+        </button>
+    </div>
+
+    <div class="filters-bar">
+        <div class="filter-group search-group">
+            <input
+                type="text"
+                placeholder="Rechercher par titre, lieu ou mot-clé..."
+                [value]="searchTerm()"
+                (input)="onSearchInput($event)"
+                class="filter-input"
+            />
+        </div>
+
+        <div class="filter-group">
+            <select
+                [value]="selectedType()"
+                (change)="onTypeChange($event)"
+                class="filter-select"
+            >
+                <option value="">Tous les types</option>
+                <option value="Plastique">Plastique</option>
+                <option value="Chimique">Chimique</option>
+                <option value="Dépôt sauvage">Dépôt sauvage</option>
+                <option value="Eau">Eau</option>
+                <option value="Air">Air</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+
+        @if (searchTerm() || selectedType()) {
+        <button type="button" class="btn-reset-filters" (click)="resetFilters()">
+            Réinitialiser
+        </button>
+        }
+    </div>
+
+    <div class="cards-grid">
+        @for (pollution of filteredPollutions(); track pollution.id) {
+        <div class="pollution-card">
+            @if (pollution.photo) {
+            <div class="card-image-wrap">
+                <img [src]="pollution.photo" alt="Photo de la pollution" class="card-image">
+            </div>
+            }
+
+            <div class="card-body">
+                <div class="card-title-row">
+                    <h2>{{ pollution.title }}</h2>
+                    <span class="badge">{{ pollution.typePollution }}</span>
+                </div>
+
+                <p class="description">{{ pollution.description }}</p>
+
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">Date :</span>
+                        <span class="info-value">{{ pollution.date }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Lieu :</span>
+                        <span class="info-value">{{ pollution.lieu }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Lattitude :</span>
+                        <span class="info-value">{{ pollution.latitude }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Longitude :</span>
+                        <span class="info-value">{{ pollution.longitude }}</span>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn-detail" type="button" (click)="onViewDetail(pollution.id)">Détails</button>
+                    <button class="btn-update" type="button" (click)="onUpdate(pollution.id)">Modifier</button>
+                    <button class="btn-delete" type="button" (click)="deletePollution(pollution.id)">Supprimer</button>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="empty-state">
+            @if (pollutions().length === 0) {
+            <p>Aucune pollution enregistrée pour le moment.</p>
+            <button class="btn-add" (click)="onAddPollution()">Ajouter une pollution</button>
+            } @else {
+            <p>Aucune pollution ne correspond à vos filtres.</p>
+            <button class="btn-reset-filters" (click)="resetFilters()">Réinitialiser les filtres</button>
+            }
+        </div>
+        }
+    </div>
+</div>

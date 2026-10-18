@@ -1,5 +1,6 @@
 <div class="card-container">
     <div class="form-header">
+        <button type="button" class="btn-back" (click)="onCancel()">← Retour à la liste</button>
         <h2>Déclarer une pollution</h2>
         <p>Remplissez le formulaire ci-dessous pour signaler une pollution</p>
     </div>
@@ -104,12 +105,15 @@
             <input id="photo" type="text" formControlName="photo" placeholder="Ex: https://exemple.com/photo.jpg">
         </div>
 
-        @if (errorMessage) {
-        <span class="error-msg global-error">{{ errorMessage }}</span>
+        @if (errorMessage()) {
+        <span class="error-msg global-error">{{ errorMessage() }}</span>
         }
 
-        <button type="submit" class="submit-btn" [disabled]="pollutionForm.invalid">
-            Déclarer
-        </button>
+        <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="onCancel()">Annuler</button>
+            <button type="submit" class="submit-btn" [disabled]="pollutionForm.invalid">
+                Déclarer
+            </button>
+        </div>
     </form>
 </div>

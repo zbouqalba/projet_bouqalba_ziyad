@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { PollutionData } from '../types/types';
 import { PollutionService } from '../services/Pollution/pollution-service';
@@ -11,9 +11,10 @@ import { PollutionService } from '../services/Pollution/pollution-service';
   styleUrl: './pollution-form.scss',
 })
 export class PollutionForm {
-  @Output() showPollutionRecap = new EventEmitter<PollutionData>();
+  @Output() pollutionCreated = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
   private pollutionService = inject(PollutionService);
-  errorMessage: string = '';
+  errorMessage = signal<string>('');
 
   today = new Date().toISOString().split('T')[0];
 
@@ -37,17 +38,21 @@ export class PollutionForm {
 
       this.pollutionService.createPollution(pollutionData).subscribe({
         next: (response) => {
-          this.showPollutionRecap.emit(pollutionData);
           this.pollutionForm.reset();
+          this.pollutionCreated.emit();
         },
         error: (err) => {
           console.error('Erreur lors de l\'ajout de la pollution', err);
-          this.errorMessage = 'Une erreur est survenue lors de l\'ajout de la pollution.';
+          this.errorMessage.set('Une erreur est survenue lors de l\'ajout de la pollution.');
         }
       });
     } else {
       this.pollutionForm.markAllAsTouched();
     }
+  }
+
+  onCancel(): void {
+    this.cancel.emit();
   }
 }
 

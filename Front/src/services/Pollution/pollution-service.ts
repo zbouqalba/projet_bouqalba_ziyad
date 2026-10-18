@@ -18,15 +18,15 @@ export class PollutionService {
     return this.http.get<PollutionData[]>(`${environment.apiUrl}/pollution/all`);
   }
 
-  readPollution(id: string): Observable<PollutionData> {
+  readPollution(id: number): Observable<PollutionData> {
     return this.http.get<PollutionData>(`${environment.apiUrl}/pollution/${id}`);
   }
 
-  updatePollution(id: string, pollutionData: PollutionData): Observable<PollutionData> {
+  updatePollution(id: number, pollutionData: PollutionData): Observable<PollutionData> {
     return this.http.patch<PollutionData>(`${environment.apiUrl}/pollution/update/${id}`, pollutionData);
   }
 
-  deletePollution(id: string): Observable<PollutionData> {
+  deletePollution(id: number): Observable<PollutionData> {
     return this.http.delete<PollutionData>(`${environment.apiUrl}/pollution/delete/${id}`);
   }
 

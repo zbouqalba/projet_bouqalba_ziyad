@@ -1,10 +1,12 @@
 <main class="main-container">
-  @if (pollutionData) {
-    <app-pollution-recap [data]="pollutionData"></app-pollution-recap>
-  } @else if (showPollution) {
-    <app-pollution-form (showPollutionRecap)="onShowPollutionRecap($event)"></app-pollution-form>
-  } @else if (signupData) {
-    <app-bienvenue [data]="signupData" (continue)="onShowPollution()"></app-bienvenue>
+  @if (pollutionData(); as data) {
+    <app-pollution-recap [data]="data" (backToList)="onBackToList()"></app-pollution-recap>
+  } @else if (showPollutionForm()) {
+    <app-pollution-form (pollutionCreated)="onPollutionCreated()" (cancel)="onShowPollutionList()"></app-pollution-form>
+  } @else if (showPollutionList()) {
+    <app-pollution-list (addPollution)="onShowPollutionForm()" (viewDetail)="onViewPollutionDetail($event)"></app-pollution-list>
+  } @else if (signupData(); as user) {
+    <app-bienvenue [data]="user" (continue)="onShowPollutionList()"></app-bienvenue>
   } @else {
     <app-signup-form (signupSuccess)="onSignupSuccess($event)"></app-signup-form>
   }
