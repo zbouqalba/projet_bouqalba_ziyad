@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SignupService } from '../services/Signup/signupService';
+import { UserData } from '../types/types';
 
 @Component({
   selector: 'app-signup-form',
@@ -9,10 +10,10 @@ import { SignupService } from '../services/Signup/signupService';
   styleUrl: './signup-form.scss',
 })
 export class SignupForm {
-  @Output() signupSuccess = new EventEmitter<any>();
+  @Output() signupSuccess = new EventEmitter<UserData>();
   private signupService = inject(SignupService);
 
-  user = {
+  user: UserData = {
     login: '',
     password: '',
     passwordConfirm: '',
@@ -25,13 +26,12 @@ export class SignupForm {
 
   onSubmit(formValid: boolean | null): void {
     if (formValid && this.user.password === this.user.passwordConfirm) {
-      const { passwordConfirm, ...userDataToSubmit } = this.user;
 
-      this.signupService.signUp(userDataToSubmit).subscribe({
+      this.signupService.signUp(this.user).subscribe({
         next: (response) => {
           this.errorMessage = '';
           this.signupSuccess.emit({
-            ...userDataToSubmit,
+            ...this.user,
             ...response,
           });
         },
