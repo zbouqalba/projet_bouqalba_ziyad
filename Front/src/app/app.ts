@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { SignupForm } from '../signup-form/signup-form';
 import { Bienvenue } from '../bienvenue/bienvenue';
 import { PollutionForm, PollutionData } from '../pollution-form/pollution-form';
 import { PollutionRecap } from '../pollution-recap/pollution-recap';
+import { UserData } from '../types/types';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,10 @@ export class App {
   title = 'exercice-web';
   showPollution = false;
   pollutionData: PollutionData | null = null;
-  signupData: any = null;
-  private cdr = inject(ChangeDetectorRef);
+  signupData: UserData | null = null;
 
-  onSignupSuccess(data: any): void {
+  onSignupSuccess(data: UserData): void {
     this.signupData = data;
-    this.cdr.markForCheck();
   }
 
   onShowPollution(): void {
