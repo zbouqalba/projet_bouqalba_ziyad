@@ -89,6 +89,24 @@ app.get('/api/pollution/:id', (req, res) => {
     res.status(200).json(pollution);
 });
 
+app.patch('/api/pollution/update/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const updatedPollution = req.body;
+
+    console.log('Nouvelle requête de modification reçue !');
+    console.log('Données :', updatedPollution);
+
+    const index = pollutions.findIndex(p => p.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ success: false, message: 'Pollution non trouvée' });
+    }
+
+    pollutions[index] = updatedPollution;
+
+    res.status(200).json(updatedPollution);
+});
+
 app.delete('/api/pollution/delete/:id', (req, res) => {
     const id = Number(req.params.id);
     console.log(`Requête de suppression reçue pour l'id : ${id}`);

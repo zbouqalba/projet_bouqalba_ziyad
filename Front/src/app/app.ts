@@ -21,6 +21,7 @@ export class App {
   showPollutionForm = signal(false);
   pollutionData = signal<PollutionData | null>(null);
   signupData = signal<UserData | null>(null);
+  isEdit = signal(false);
 
   onSignupSuccess(data: UserData): void {
     this.signupData.set(data);
@@ -30,18 +31,21 @@ export class App {
   }
 
   onShowPollutionList(): void {
+    this.isEdit.set(false);
     this.showPollutionList.set(true);
     this.showPollutionForm.set(false);
     this.pollutionData.set(null);
   }
 
   onShowPollutionForm(): void {
+    this.isEdit.set(false);
     this.showPollutionForm.set(true);
     this.showPollutionList.set(false);
     this.pollutionData.set(null);
   }
 
   onPollutionCreated(): void {
+    this.isEdit.set(false);
     this.pollutionData.set(null);
     this.showPollutionForm.set(false);
     this.showPollutionList.set(true);
@@ -64,5 +68,20 @@ export class App {
     this.pollutionData.set(null);
     this.showPollutionList.set(true);
     this.showPollutionForm.set(false);
+  }
+
+  onUpdatePollution(id: number): void {
+    this.isEdit.set(true);
+    this.showPollutionForm.set(true);
+    this.showPollutionList.set(false);
+    this.pollutionData.set(null);
+    this.pollutionService.readPollution(id).subscribe({
+      next: (data: PollutionData) => {
+        this.pollutionData.set(data);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des détails de la pollution', err);
+      }
+    });
   }
 }

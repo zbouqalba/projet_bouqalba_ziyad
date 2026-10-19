@@ -36,6 +36,7 @@ export class PollutionList implements OnInit {
 
   @Output() addPollution = new EventEmitter<void>();
   @Output() viewDetail = new EventEmitter<number>();
+  @Output() update = new EventEmitter<number>();
 
   ngOnInit(): void {
     this.loadPollutions();
@@ -64,7 +65,7 @@ export class PollutionList implements OnInit {
   }
 
   onUpdate(id: number): void {
-    console.log('Modifier la pollution', id);
+    this.update.emit(id);
   }
 
   onViewDetail(id: number): void {
