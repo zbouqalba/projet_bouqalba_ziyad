@@ -11,7 +11,7 @@ import { PollutionService } from '../services/Pollution/pollution-service';
 })
 export class PollutionForm implements OnInit, OnChanges {
   @Input() isEdit: boolean = false;
-  @Input() pollution!: PollutionData;
+  @Input() pollution: PollutionData | null = null;
 
   @Output() pollutionCreated = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();
@@ -50,7 +50,7 @@ export class PollutionForm implements OnInit, OnChanges {
       const rawValue = this.pollutionForm.getRawValue();
 
       if (this.isEdit) {
-        const id = this.pollution.id;
+        const id = this.pollution!.id;
         const pollutionData: PollutionData = {
           ...rawValue,
           id: id,
