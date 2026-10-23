@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { PollutionData } from '../pollution-form/pollution-form';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import type { PollutionData } from '../types/types';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,4 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class PollutionRecap {
   @Input({ required: true }) data!: PollutionData;
+  @Output() backToList = new EventEmitter<void>();
+
+  onBackToList(): void {
+    this.backToList.emit();
+  }
 }

@@ -1,16 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject, signal, Input, OnInit, OnChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
-export interface PollutionData {
-  title: string;
-  typePollution: string;
-  description: string;
-  date: string;
-  lieu: string;
-  latitude: number;
-  longitude: number;
-  photo?: string | null;
-}
+import type { PollutionData } from '../types/types';
+import { PollutionService } from '../services/Pollution/pollution-service';
 
 @Component({
   selector: 'app-pollution-form',
@@ -18,8 +9,14 @@ export interface PollutionData {
   templateUrl: './pollution-form.html',
   styleUrl: './pollution-form.scss',
 })
-export class PollutionForm {
-  @Output() showPollutionRecap = new EventEmitter<PollutionData>();
+export class PollutionForm implements OnInit, OnChanges {
+  @Input() isEdit: boolean = false;
+  @Input() pollution: PollutionData | null = null;
+
+  @Output() pollutionCreated = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
+  private pollutionService = inject(PollutionService);
+  errorMessage = signal<string>('');
 
   today = new Date().toISOString().split('T')[0];
 
@@ -34,13 +31,65 @@ export class PollutionForm {
     photo: new FormControl<string | null>(null),
   });
 
+  ngOnInit(): void {
+    this.fillFormIfEdit();
+  }
+
+  ngOnChanges(): void {
+    this.fillFormIfEdit();
+  }
+
+  private fillFormIfEdit(): void {
+    if (this.isEdit && this.pollution) {
+      this.pollutionForm.patchValue(this.pollution);
+    }
+  }
+
   onSubmit() {
     if (this.pollutionForm.valid) {
-      this.showPollutionRecap.emit(this.pollutionForm.getRawValue());
-      this.pollutionForm.reset();
+      const rawValue = this.pollutionForm.getRawValue();
+
+      if (this.isEdit) {
+        const id = this.pollution!.id;
+        const pollutionData: PollutionData = {
+          ...rawValue,
+          id: id,
+        };
+
+        this.pollutionService.updatePollution(id, pollutionData).subscribe({
+          next: (response) => {
+            this.pollutionForm.reset();
+            this.pollutionCreated.emit();
+          },
+          error: (err) => {
+            console.error('Erreur lors de la modification de la pollution', err);
+            this.errorMessage.set('Une erreur est survenue lors de la modification de la pollution.');
+          }
+        });
+      } else {
+        const pollutionData: PollutionData = {
+          ...rawValue,
+          id: Math.floor(Math.random() * 1000),
+        };
+
+        this.pollutionService.createPollution(pollutionData).subscribe({
+          next: (response) => {
+            this.pollutionForm.reset();
+            this.pollutionCreated.emit();
+          },
+          error: (err) => {
+            console.error('Erreur lors de l\'ajout de la pollution', err);
+            this.errorMessage.set('Une erreur est survenue lors de l\'ajout de la pollution.');
+          }
+        });
+      }
     } else {
       this.pollutionForm.markAllAsTouched();
     }
+  }
+
+  onCancel(): void {
+    this.cancel.emit();
   }
 }
 

@@ -17,6 +17,7 @@ describe('PollutionRecap', () => {
 
     // Provide some dummy data for the required input
     component.data = {
+      id: 1,
       title: 'Test Title',
       typePollution: 'Air',
       description: 'Test description',
