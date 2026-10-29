@@ -10,7 +10,7 @@ import type { PollutionData } from '../../types/types';
 export class PollutionService {
   private http = inject(HttpClient);
 
-  createPollution(pollutionData: PollutionData): Observable<PollutionData> {
+  createPollution(pollutionData: Omit<PollutionData, 'id'>): Observable<PollutionData> {
     return this.http.post<PollutionData>(`${environment.apiUrl}/pollution/add`, pollutionData);
   }
 

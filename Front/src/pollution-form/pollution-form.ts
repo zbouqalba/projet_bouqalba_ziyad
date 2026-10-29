@@ -67,12 +67,7 @@ export class PollutionForm implements OnInit, OnChanges {
           }
         });
       } else {
-        const pollutionData: PollutionData = {
-          ...rawValue,
-          id: Math.floor(Math.random() * 1000),
-        };
-
-        this.pollutionService.createPollution(pollutionData).subscribe({
+        this.pollutionService.createPollution(rawValue).subscribe({
           next: (response) => {
             this.pollutionForm.reset();
             this.pollutionCreated.emit();
