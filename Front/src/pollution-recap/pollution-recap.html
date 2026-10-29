@@ -3,7 +3,7 @@
     <button type="button" class="btn-back" (click)="onBackToList()">← Retour à la liste</button>
   </div>
 
-  <h2>Détail de la Pollution</h2>
+  <h2>Détail de la Pollutions</h2>
 
   <div class="recap-card">
     <div class="recap-header">
@@ -38,10 +38,10 @@
     </div>
 
     @if (data.photo) {
-      <div class="recap-image">
-        <label>Photo :</label>
-        <img [src]="data.photo" alt="Photo de la pollution" />
-      </div>
+    <div class="recap-image">
+      <label>Photo :</label>
+      <img [src]="data.photo" alt="Photo de la pollution" />
+    </div>
     }
   </div>
 </div>
