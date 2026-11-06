@@ -11,9 +11,10 @@ export type PollutionData = {
 }
 
 export type UserData = {
+    id?: number;
     login: string;
-    password: string;
-    passwordConfirm: string;
+    password?: string;
+    passwordConfirm?: string;
     firstName: string;
     lastName: string;
     email: string;

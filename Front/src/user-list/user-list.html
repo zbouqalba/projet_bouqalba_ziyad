@@ -1,0 +1,53 @@
+<div class="user-list-container">
+  <div class="list-header">
+    <div class="header-titles">
+      <h1>Liste des utilisateurs</h1>
+      <p class="subtitle">Comptes enregistrés sur l'application</p>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-banner">{{ errorMessage() }}</div>
+  }
+
+  @if (loading()) {
+    <p class="loading-text">Chargement des utilisateurs...</p>
+  } @else {
+    <div class="table-card">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Identifiant</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>E-mail</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users(); track u.id || u.login) {
+            <tr>
+              <td class="font-bold">{{ u.login }}</td>
+              <td>{{ u.firstName }}</td>
+              <td>{{ u.lastName }}</td>
+              <td>{{ u.email }}</td>
+              <td class="text-center">
+                <button
+                  type="button"
+                  class="btn-delete-user"
+                  (click)="deleteUser(u.id)"
+                >
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-cell">Aucun utilisateur trouvé.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -37,6 +37,8 @@ export class PollutionList implements OnInit {
   @Output() addPollution = new EventEmitter<void>();
   @Output() viewDetail = new EventEmitter<number>();
   @Output() update = new EventEmitter<number>();
+  @Output() viewUsers = new EventEmitter<void>();
+  @Output() logout = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.loadPollutions();
@@ -74,6 +76,14 @@ export class PollutionList implements OnInit {
 
   onAddPollution(): void {
     this.addPollution.emit();
+  }
+
+  onViewUsers(): void {
+    this.viewUsers.emit();
+  }
+
+  onLogout(): void {
+    this.logout.emit();
   }
 
   onSearchInput(event: Event): void {

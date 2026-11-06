@@ -4,7 +4,9 @@ import userController from "../controllers/user.controllers";
 export default (app: Application): void => {
   const router = Router();
 
-  router.post("/signup", userController.signUp);
+  router.post("/", userController.signUp);
+  router.get("/", userController.getAll);
+  router.delete("/:id", userController.remove);
 
-  app.use("/api", router);
+  app.use("/api/users", router);
 };
