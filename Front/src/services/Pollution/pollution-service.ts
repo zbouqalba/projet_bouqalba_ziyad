@@ -11,23 +11,23 @@ export class PollutionService {
   private http = inject(HttpClient);
 
   createPollution(pollutionData: Omit<PollutionData, 'id'>): Observable<PollutionData> {
-    return this.http.post<PollutionData>(`${environment.apiUrl}/pollution/add`, pollutionData);
+    return this.http.post<PollutionData>(`${environment.apiUrl}/pollutions`, pollutionData);
   }
 
   listPollutions(): Observable<PollutionData[]> {
-    return this.http.get<PollutionData[]>(`${environment.apiUrl}/pollution/all`);
+    return this.http.get<PollutionData[]>(`${environment.apiUrl}/pollutions`);
   }
 
   readPollution(id: number): Observable<PollutionData> {
-    return this.http.get<PollutionData>(`${environment.apiUrl}/pollution/${id}`);
+    return this.http.get<PollutionData>(`${environment.apiUrl}/pollutions/${id}`);
   }
 
   updatePollution(id: number, pollutionData: PollutionData): Observable<PollutionData> {
-    return this.http.patch<PollutionData>(`${environment.apiUrl}/pollution/update/${id}`, pollutionData);
+    return this.http.patch<PollutionData>(`${environment.apiUrl}/pollutions/${id}`, pollutionData);
   }
 
   deletePollution(id: number): Observable<PollutionData> {
-    return this.http.delete<PollutionData>(`${environment.apiUrl}/pollution/delete/${id}`);
+    return this.http.delete<PollutionData>(`${environment.apiUrl}/pollutions/${id}`);
   }
 
 }

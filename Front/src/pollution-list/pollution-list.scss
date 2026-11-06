@@ -279,6 +279,46 @@
     margin-bottom: 1.25rem;
   }
 
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-users {
+    padding: 0.75rem 1.25rem;
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+  }
+
+  .btn-logout {
+    padding: 0.75rem 1.25rem;
+    background: #fff1f2;
+    color: #e11d48;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid #fecdd3;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #ffe4e6;
+    }
+  }
+
   .btn-add {
     padding: 0.75rem 1.5rem;
     background: #2563eb;

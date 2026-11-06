@@ -1,5 +1,36 @@
+<header class="app-navbar">
+  <div class="nav-links">
+    <button
+      type="button"
+      class="nav-item"
+      [class.active]="showPollutionList() && !showUserList()"
+      (click)="onShowPollutionList()"
+    >
+      Pollutions
+    </button>
+    <button
+      type="button"
+      class="nav-item"
+      [class.active]="showUserList()"
+      (click)="onShowUserList()"
+    >
+      Utilisateurs
+    </button>
+  </div>
+
+  @if (signupData()) {
+  <div class="nav-actions">
+    <button type="button" class="btn-logout" (click)="onLogout()">
+      Déconnexion
+    </button>
+  </div>
+  }
+</header>
+
 <main class="main-container">
-  @if (showPollutionForm()) {
+  @if (showUserList()) {
+  <app-user-list></app-user-list>
+  } @else if (showPollutionForm()) {
   <app-pollution-form [isEdit]="isEdit()" [pollution]="pollutionData()" (pollutionCreated)="onPollutionCreated()"
     (cancel)="onShowPollutionList()"></app-pollution-form>
   } @else if (pollutionData(); as data) {
