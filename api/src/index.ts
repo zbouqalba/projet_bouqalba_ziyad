@@ -27,7 +27,7 @@ app.get("/health", (_req: Request, res: Response) => {
 });
 
 db.sequelize
-    .sync()
+    .sync({ alter: true })
     .then(async () => {
         console.log("Synced db.");
         try {
@@ -42,6 +42,7 @@ db.sequelize
                         lieu: "Parc de l'Orangerie, Strasbourg",
                         latitude: 48.5839,
                         longitude: 7.7455,
+                        niveau: 35,
                         photo: "https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=500"
                     },
                     {
@@ -52,6 +53,7 @@ db.sequelize
                         lieu: "Forêt de la Robertsau",
                         latitude: 48.618,
                         longitude: 7.785,
+                        niveau: 75,
                         photo: null
                     }
                 ]);

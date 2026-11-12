@@ -1,12 +1,14 @@
 import { Component, computed, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PollutionService } from '../services/Pollution/pollution-service';
+import { PollutionLevelPipe } from '../pipes/pollution-level.pipe';
+import { HighlightPollutionDirective } from '../directives/highlight-pollution.directive';
 import type { PollutionData } from '../types/types';
 
 @Component({
   selector: 'app-pollution-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './pollution-list.html',
   styleUrl: './pollution-list.scss',
 })

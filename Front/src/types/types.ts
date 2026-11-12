@@ -7,6 +7,7 @@ export type PollutionData = {
     lieu: string;
     latitude: number;
     longitude: number;
+    niveau?: number;
     photo?: string | null;
 }
 

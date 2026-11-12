@@ -9,6 +9,7 @@ export interface PollutionAttributes {
   lieu: string;
   latitude: number;
   longitude: number;
+  niveau: number;
   photo?: string | null;
 }
 
@@ -62,6 +63,11 @@ export default function definePollutions(
         type: DataTypes.FLOAT,
         allowNull: false
       },
+      niveau: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
       photo: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -77,4 +83,3 @@ export default function definePollutions(
 
   return Pollutions;
 }
-

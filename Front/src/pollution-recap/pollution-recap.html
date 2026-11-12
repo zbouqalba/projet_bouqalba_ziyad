@@ -5,7 +5,7 @@
 
   <h2>Détail de la Pollution</h2>
 
-    <div class="recap-card">
+    <div class="recap-card" [appHighlightPollution]="data.niveau">
       <div class="recap-header">
         <h3>{{ data.title }}</h3>
         <span class="badge">{{ data.typePollution }}</span>
@@ -18,6 +18,12 @@
         </div>
 
         <div class="info-grid">
+          <div class="info-item">
+            <label>Dangerosité :</label>
+            <span>
+              {{ data.niveau | pollutionLevel }} ({{ data.niveau ?? 0 }})
+            </span>
+          </div>
           <div class="info-item">
             <label>Date :</label>
             <span>{{ data.date }}</span>

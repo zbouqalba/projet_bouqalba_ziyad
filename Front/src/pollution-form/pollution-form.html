@@ -48,12 +48,27 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="lieu">Lieu</label>
-            <input id="lieu" type="text" formControlName="lieu" placeholder="Ex: Homme de Fer, Strasbourg">
-            @if (pollutionForm.controls.lieu.invalid && pollutionForm.controls.lieu.touched) {
-            <span class="error-msg">Le lieu est requis.</span>
-            }
+        <div class="form-row">
+            <div class="form-group">
+                <label for="lieu">Lieu</label>
+                <input id="lieu" type="text" formControlName="lieu" placeholder="Ex: Homme de Fer, Strasbourg">
+                @if (pollutionForm.controls.lieu.invalid && pollutionForm.controls.lieu.touched) {
+                <span class="error-msg">Le lieu est requis.</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="niveau">Indice de dangerosité</label>
+                <input id="niveau" type="number" min="0" formControlName="niveau" placeholder="Ex: 45">
+                @if (pollutionForm.controls.niveau.invalid && pollutionForm.controls.niveau.touched) {
+                @if (pollutionForm.controls.niveau.errors?.['required']) {
+                <span class="error-msg">L'indice de dangerosité est requis.</span>
+                }
+                @if (pollutionForm.controls.niveau.errors?.['min']) {
+                <span class="error-msg">L'indice doit être positif ou nul (≥ 0).</span>
+                }
+                }
+            </div>
         </div>
 
         <div class="form-row">

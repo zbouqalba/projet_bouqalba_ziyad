@@ -39,7 +39,7 @@ export const getById = async (req: Request, res: Response): Promise<void> => {
 
 export const create = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, description, date, typePollution, lieu, latitude, longitude, photo } = req.body;
+    const { title, description, date, typePollution, lieu, latitude, longitude, niveau, photo } = req.body;
     const newPollution = await Pollutions.create({
       title,
       description,
@@ -48,6 +48,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
       lieu,
       latitude: Number(latitude),
       longitude: Number(longitude),
+      niveau: Number(niveau ?? 0),
       photo: photo || null
     });
     res.status(201).json(newPollution);
@@ -71,7 +72,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const { title, description, date, typePollution, lieu, latitude, longitude, photo } = req.body;
+    const { title, description, date, typePollution, lieu, latitude, longitude, niveau, photo } = req.body;
     await pollution.update({
       title,
       description,
@@ -80,6 +81,7 @@ export const update = async (req: Request, res: Response): Promise<void> => {
       lieu,
       latitude: Number(latitude),
       longitude: Number(longitude),
+      niveau: Number(niveau ?? 0),
       photo: photo || null
     });
 
@@ -115,4 +117,3 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
 };
 
 export default { getAll, getById, create, update, remove };
-

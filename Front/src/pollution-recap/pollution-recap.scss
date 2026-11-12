@@ -43,9 +43,9 @@
   border: 1px solid #e1e8ed;
 
   .recap-header {
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.5);
     padding: 1.5rem;
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;

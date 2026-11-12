@@ -180,15 +180,16 @@
     }
 
     .description {
-      color: #64748b;
+      color: #334155;
       font-size: 0.9rem;
       line-height: 1.5;
       margin: 0 0 1.25rem 0;
     }
 
     .info-list {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
       border-radius: 10px;
       padding: 0.85rem;
       display: flex;
@@ -203,12 +204,12 @@
         font-size: 0.85rem;
 
         .info-label {
-          color: #64748b;
+          color: #475569;
           font-weight: 500;
         }
 
         .info-value {
-          color: #1e293b;
+          color: #0f172a;
           font-weight: 600;
           text-align: right;
         }
@@ -227,12 +228,12 @@
         font-weight: 600;
         border-radius: 8px;
         cursor: pointer;
-        background-color: transparent;
+        background-color: rgba(255, 255, 255, 0.85);
         transition: all 0.2s ease;
       }
 
       .btn-delete {
-        color: #ef4444;
+        color: #dc2626;
         border: 1.5px solid #fca5a5;
 
         &:hover {
@@ -252,11 +253,11 @@
       }
 
       .btn-update {
-        color: #475569;
+        color: #334155;
         border: 1.5px solid #cbd5e1;
 
         &:hover {
-          background-color: #f1f5f9;
+          background-color: #ffffff;
           color: #0f172a;
           border-color: #94a3b8;
         }

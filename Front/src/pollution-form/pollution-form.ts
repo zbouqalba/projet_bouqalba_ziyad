@@ -28,6 +28,7 @@ export class PollutionForm implements OnInit, OnChanges {
     lieu: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     latitude: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(-90), Validators.max(90)] }),
     longitude: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(-180), Validators.max(180)] }),
+    niveau: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(0)] }),
     photo: new FormControl<string | null>(null),
   });
 
@@ -87,4 +88,3 @@ export class PollutionForm implements OnInit, OnChanges {
     this.cancel.emit();
   }
 }
-

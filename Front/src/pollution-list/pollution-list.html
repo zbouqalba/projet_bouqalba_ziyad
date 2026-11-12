@@ -45,7 +45,7 @@
 
     <div class="cards-grid">
         @for (pollution of filteredPollutions(); track pollution.id) {
-        <div class="pollution-card">
+        <div class="pollution-card" [appHighlightPollution]="pollution.niveau">
             @if (pollution.photo) {
             <div class="card-image-wrap">
                 <img [src]="pollution.photo" alt="Photo de la pollution" class="card-image">
@@ -61,6 +61,12 @@
                 <p class="description">{{ pollution.description }}</p>
 
                 <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">Dangerosité :</span>
+                        <span class="info-value">
+                            {{ pollution.niveau | pollutionLevel }} ({{ pollution.niveau ?? 0 }})
+                        </span>
+                    </div>
                     <div class="info-item">
                         <span class="info-label">Date :</span>
                         <span class="info-value">{{ pollution.date }}</span>
