@@ -34,6 +34,7 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
     res.status(201).json({
       success: true,
       message: "Inscription réussie avec succès !",
+      id: newUser.id,
       userId: newUser.id,
       login: newUser.login,
       firstName: newUser.firstName,
@@ -45,6 +46,45 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({
       success: false,
       message: "Erreur lors de l'inscription de l'utilisateur: " + message
+    });
+  }
+};
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { login, password } = req.body;
+    if (!login || !password) {
+      res.status(400).json({
+        success: false,
+        message: "Identifiant et mot de passe requis."
+      });
+      return;
+    }
+
+    const user = await Users.findOne({ where: { login } });
+    if (!user || user.password !== password) {
+      res.status(401).json({
+        success: false,
+        message: "Identifiant ou mot de passe incorrect."
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Connexion réussie !",
+      id: user.id,
+      userId: user.id,
+      login: user.login,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    res.status(500).json({
+      success: false,
+      message: "Erreur lors de la connexion: " + message
     });
   }
 };
@@ -73,5 +113,4 @@ export const remove = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export default { signUp, getAll, remove };
-
+export default { signUp, login, getAll, remove };

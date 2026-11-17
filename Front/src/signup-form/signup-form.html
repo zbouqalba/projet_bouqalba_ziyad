@@ -1,10 +1,29 @@
 <div class="card-container">
     <div class="form-header">
-        <h2>Créer un compte</h2>
-        <p>Remplissez le formulaire ci-dessous pour vous inscrire</p>
+        <div class="tabs-container">
+            <button
+                type="button"
+                class="tab-btn"
+                [class.active]="isLoginMode()"
+                (click)="isLoginMode.set(true); errorMessage.set('')"
+            >
+                Connexion
+            </button>
+            <button
+                type="button"
+                class="tab-btn"
+                [class.active]="!isLoginMode()"
+                (click)="isLoginMode.set(false); errorMessage.set('')"
+            >
+                Inscription
+            </button>
+        </div>
+
+        <h2>{{ isLoginMode() ? 'Connexion' : 'Créer un compte' }}</h2>
+        <p>{{ isLoginMode() ? 'Connectez-vous à votre espace' : 'Remplissez le formulaire pour vous inscrire' }}</p>
     </div>
 
-    <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm.valid)" class="signup-form">
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm.valid)" class="signup-form">
         <div class="form-group">
             <label for="login">Identifiant</label>
             <input id="login" type="text" name="login" [(ngModel)]="user.login" #login="ngModel" required>
@@ -13,6 +32,7 @@
             }
         </div>
 
+        @if (!isLoginMode()) {
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">Prénom</label>
@@ -40,8 +60,9 @@
             <span class="error-msg">Veuillez entrer une adresse e-mail valide.</span>
             }
         </div>
+        }
 
-        <div class="form-row">
+        <div [class.form-row]="!isLoginMode()">
             <div class="form-group">
                 <label for="password">Mot de passe</label>
                 <input id="password" type="password" name="password" [(ngModel)]="user.password" #password="ngModel"
@@ -51,6 +72,7 @@
                 }
             </div>
 
+            @if (!isLoginMode()) {
             <div class="form-group">
                 <label for="passwordConfirm">Confirmation</label>
                 <input id="passwordConfirm" type="password" name="passwordConfirm" [(ngModel)]="user.passwordConfirm"
@@ -60,15 +82,25 @@
                 <span class="error-msg">Les mots de passe ne correspondent pas.</span>
                 }
             </div>
+            }
         </div>
 
-        @if (errorMessage) {
-        <span class="error-msg global-error">{{ errorMessage }}</span>
+        @if (errorMessage()) {
+        <span class="error-msg global-error">{{ errorMessage() }}</span>
         }
 
-        <button type="submit" class="submit-btn"
-            [disabled]="signupForm.invalid || user.password !== user.passwordConfirm">
-            S'inscrire / Se connecter
+        <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="authForm.invalid || (!isLoginMode() && user.password !== user.passwordConfirm)"
+        >
+            {{ isLoginMode() ? 'Se connecter' : 'Créer un compte' }}
         </button>
+
+        <div class="toggle-mode-container">
+            <button type="button" class="btn-toggle-mode" (click)="toggleMode()">
+                {{ isLoginMode() ? "Pas encore de compte ? S'inscrire" : 'Déjà un compte ? Se connecter' }}
+            </button>
+        </div>
     </form>
 </div>

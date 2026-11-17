@@ -5,49 +5,51 @@
 
   <h2>Détail de la Pollution</h2>
 
-    <div class="recap-card" [appHighlightPollution]="data.niveau">
+  @if (pollution(); as item) {
+    <div class="recap-card" [appHighlightPollution]="item.niveau">
       <div class="recap-header">
-        <h3>{{ data.title }}</h3>
-        <span class="badge">{{ data.typePollution }}</span>
+        <h3>{{ item.title }}</h3>
+        <span class="badge">{{ item.typePollution }}</span>
       </div>
 
       <div class="recap-body">
         <div class="info-group">
           <label>Description :</label>
-          <p>{{ data.description }}</p>
+          <p>{{ item.description }}</p>
         </div>
 
         <div class="info-grid">
           <div class="info-item">
             <label>Dangerosité :</label>
             <span>
-              {{ data.niveau | pollutionLevel }} ({{ data.niveau ?? 0 }})
+              {{ item.niveau | pollutionLevel }} ({{ item.niveau }})
             </span>
           </div>
           <div class="info-item">
             <label>Date :</label>
-            <span>{{ data.date }}</span>
+            <span>{{ item.date }}</span>
           </div>
           <div class="info-item">
             <label>Lieu :</label>
-            <span>{{ data.lieu }}</span>
+            <span>{{ item.lieu }}</span>
           </div>
           <div class="info-item">
             <label>Latitude :</label>
-            <span>{{ data.latitude }}</span>
+            <span>{{ item.latitude }}</span>
           </div>
           <div class="info-item">
             <label>Longitude :</label>
-            <span>{{ data.longitude }}</span>
+            <span>{{ item.longitude }}</span>
           </div>
         </div>
       </div>
 
-      @if (data.photo) {
+      @if (item.photo) {
       <div class="recap-image">
         <label>Photo :</label>
-        <img [src]="data.photo" alt="Photo de la pollution" />
+        <img [src]="item.photo" alt="Photo de la pollution" />
       </div>
       }
     </div>
+  }
 </div>
