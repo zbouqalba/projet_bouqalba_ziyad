@@ -1,25 +1,27 @@
+@if (userData(); as user) {
 <div class="card-container">
     <div class="success-card">
-        <h2>Bienvenue, {{ data.firstName }} {{ data.lastName }} !</h2>
+        <h2>Bienvenue, {{ user.firstName }} {{ user.lastName }} !</h2>
         <p class="success-subtitle">Vos informations de connexion :</p>
 
         <div class="info-list">
             <div class="info-item">
                 <span class="info-label">Identifiant :</span>
-                <span class="info-value">{{ data.login }}</span>
+                <span class="info-value">{{ user.login }}</span>
             </div>
             <div class="info-item">
                 <span class="info-label">Nom complet :</span>
-                <span class="info-value">{{ data.firstName }} {{ data.lastName }}</span>
+                <span class="info-value">{{ user.firstName }} {{ user.lastName }}</span>
             </div>
             <div class="info-item">
                 <span class="info-label">Adresse E-mail :</span>
-                <span class="info-value">{{ data.email }}</span>
+                <span class="info-value">{{ user.email }}</span>
             </div>
         </div>
 
         <button (click)="onBienvenueClick()" class="reset-btn">
-            Bienvenue
+            Continuer vers les pollutions
         </button>
     </div>
 </div>
+}

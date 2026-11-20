@@ -5,6 +5,7 @@ export default (app: Application): void => {
   const router = Router();
 
   router.post("/", userController.signUp);
+  router.post("/login", userController.login);
   router.get("/", userController.getAll);
   router.delete("/:id", userController.remove);
 

@@ -1,5 +1,6 @@
-import { Component, computed, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { PollutionService } from '../services/Pollution/pollution-service';
 import { PollutionLevelPipe } from '../pipes/pollution-level.pipe';
 import { HighlightPollutionDirective } from '../directives/highlight-pollution.directive';
@@ -11,9 +12,11 @@ import type { PollutionData } from '../types/types';
   imports: [CommonModule, PollutionLevelPipe, HighlightPollutionDirective],
   templateUrl: './pollution-list.html',
   styleUrl: './pollution-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PollutionList implements OnInit {
   private pollutionService = inject(PollutionService);
+  private router = inject(Router);
 
   pollutions = signal<PollutionData[]>([]);
   searchTerm = signal<string>('');
@@ -49,7 +52,7 @@ export class PollutionList implements OnInit {
   loadPollutions(): void {
     this.pollutionService.listPollutions().subscribe({
       next: (response: PollutionData[]) => {
-        this.pollutions.set(response || []);
+        this.pollutions.set([...(response || [])]);
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des pollutions', err);
@@ -70,18 +73,22 @@ export class PollutionList implements OnInit {
 
   onUpdate(id: number): void {
     this.update.emit(id);
+    this.router.navigate(['/pollutions', id, 'edit']);
   }
 
   onViewDetail(id: number): void {
     this.viewDetail.emit(id);
+    this.router.navigate(['/pollutions', id]);
   }
 
   onAddPollution(): void {
     this.addPollution.emit();
+    this.router.navigate(['/pollutions', 'new']);
   }
 
   onViewUsers(): void {
     this.viewUsers.emit();
+    this.router.navigate(['/users']);
   }
 
   onLogout(): void {

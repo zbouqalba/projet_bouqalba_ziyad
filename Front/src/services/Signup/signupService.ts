@@ -14,6 +14,10 @@ export class SignupService {
     return this.http.post<UserData>(`${environment.apiUrl}/users`, userData);
   }
 
+  login(credentials: Pick<UserData, 'login' | 'password'>): Observable<UserData> {
+    return this.http.post<UserData>(`${environment.apiUrl}/users/login`, credentials);
+  }
+
   getUsers(): Observable<UserData[]> {
     return this.http.get<UserData[]>(`${environment.apiUrl}/users`);
   }

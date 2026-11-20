@@ -20,6 +20,9 @@
     gap: 0.5rem;
 
     .nav-item {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
       padding: 0.5rem 1rem;
       border: 1px solid transparent;
       background: transparent;
@@ -45,6 +48,16 @@
   }
 
   .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .user-greeting {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #64748b;
+    }
+
     .btn-logout {
       padding: 0.45rem 0.9rem;
       background: #ffffff;

@@ -1,25 +1,26 @@
-@if (signupData()) {
+@if (isAuthenticated()) {
 <header class="app-navbar">
   <div class="nav-links">
-    <button
-      type="button"
+    <a
+      routerLink="/pollutions"
+      routerLinkActive="active"
       class="nav-item"
-      [class.active]="showPollutionList() && !showUserList()"
-      (click)="onShowPollutionList()"
     >
       Pollutions
-    </button>
-    <button
-      type="button"
+    </a>
+    <a
+      routerLink="/users"
+      routerLinkActive="active"
       class="nav-item"
-      [class.active]="showUserList()"
-      (click)="onShowUserList()"
     >
       Utilisateurs
-    </button>
+    </a>
   </div>
 
   <div class="nav-actions">
+    @if (currentUser(); as user) {
+      <span class="user-greeting">{{ user.firstName }} {{ user.lastName }}</span>
+    }
     <button type="button" class="btn-logout" (click)="onLogout()">
       Déconnexion
     </button>
@@ -28,19 +29,5 @@
 }
 
 <main class="main-container">
-  @if (!signupData()) {
-    <app-signup-form (signupSuccess)="onSignupSuccess($event)"></app-signup-form>
-  } @else if (showUserList()) {
-    <app-user-list></app-user-list>
-  } @else if (showPollutionForm()) {
-    <app-pollution-form [isEdit]="isEdit()" [pollution]="pollutionData()" (pollutionCreated)="onPollutionCreated()"
-      (cancel)="onShowPollutionList()"></app-pollution-form>
-  } @else if (pollutionData(); as data) {
-    <app-pollution-recap [data]="data" (backToList)="onBackToList()"></app-pollution-recap>
-  } @else if (showPollutionList()) {
-    <app-pollution-list (addPollution)="onShowPollutionForm()" (viewDetail)="onViewPollutionDetail($event)"
-      (update)="onUpdatePollution($event)"></app-pollution-list>
-  } @else if (signupData(); as user) {
-    <app-bienvenue [data]="user" (continue)="onShowPollutionList()"></app-bienvenue>
-  }
+  <router-outlet></router-outlet>
 </main>
