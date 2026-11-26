@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AuthService } from '../services/Auth/auth.service';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../states/auth/auth.state';
+import { Logout } from '../states/auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +13,15 @@ import { AuthService } from '../services/Auth/auth.service';
 })
 export class App {
   title = 'exercice-web';
-  private authService = inject(AuthService);
+  private store = inject(Store);
   private router = inject(Router);
 
-  currentUser = this.authService.currentUser;
-  isAuthenticated = this.authService.isAuthenticated;
+  user = this.store.selectSignal(AuthState.user);
+  isAuthenticated = this.store.selectSignal(AuthState.isAuthenticated);
+  username = this.store.selectSignal(AuthState.username);
 
   onLogout(): void {
-    this.authService.logout();
-    this.router.navigate(['/signup']);
+    this.store.dispatch(new Logout());
+    this.router.navigate(['/login']);
   }
 }

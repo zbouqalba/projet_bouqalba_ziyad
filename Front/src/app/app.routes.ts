@@ -4,10 +4,15 @@ import { authGuard, authMatchGuard, guestGuard } from '../guards/auth.guard';
 export const routes: Routes = [
   { path: '', redirectTo: 'pollutions', pathMatch: 'full' },
   {
-    path: 'signup',
+    path: 'login',
     canActivate: [guestGuard],
     loadComponent: () =>
       import('../signup-form/signup-form').then((m) => m.SignupForm),
+  },
+  {
+    path: 'signup',
+    redirectTo: 'login',
+    pathMatch: 'full',
   },
   {
     path: 'bienvenue',

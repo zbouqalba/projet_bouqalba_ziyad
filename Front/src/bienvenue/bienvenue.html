@@ -1,21 +1,21 @@
-@if (userData(); as user) {
+@if (user(); as profile) {
 <div class="card-container">
     <div class="success-card">
-        <h2>Bienvenue, {{ user.firstName }} {{ user.lastName }} !</h2>
-        <p class="success-subtitle">Vos informations de connexion :</p>
+        <h2>Bienvenue, {{ profile.nom }} !</h2>
+        <p class="success-subtitle">Vos informations de session :</p>
 
         <div class="info-list">
             <div class="info-item">
-                <span class="info-label">Identifiant :</span>
-                <span class="info-value">{{ user.login }}</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">Nom complet :</span>
-                <span class="info-value">{{ user.firstName }} {{ user.lastName }}</span>
+                <span class="info-label">Nom :</span>
+                <span class="info-value">{{ profile.nom }}</span>
             </div>
             <div class="info-item">
                 <span class="info-label">Adresse E-mail :</span>
-                <span class="info-value">{{ user.email }}</span>
+                <span class="info-value">{{ profile.email }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Rôle :</span>
+                <span class="info-value">{{ profile.role }}</span>
             </div>
         </div>
 

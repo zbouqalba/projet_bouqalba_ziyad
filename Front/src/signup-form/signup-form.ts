@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { SignupService } from '../services/Signup/signupService';
-import { AuthService } from '../services/Auth/auth.service';
+import { Login } from '../states/auth/auth.actions';
 import { UserData } from '../types/types';
 
 @Component({
@@ -14,11 +15,17 @@ import { UserData } from '../types/types';
 })
 export class SignupForm {
   @Output() signupSuccess = new EventEmitter<UserData>();
+  private store = inject(Store);
   private signupService = inject(SignupService);
-  private authService = inject(AuthService);
   private router = inject(Router);
 
   isLoginMode = signal<boolean>(true);
+
+  // Profil simulé pour l'action NGXS Login(payload: { email: string; nom: string })
+  loginProfile = {
+    nom: 'Jean Dupont',
+    email: 'jean.dupont@test.fr',
+  };
 
   user: UserData = {
     login: '',
@@ -36,66 +43,52 @@ export class SignupForm {
     this.errorMessage.set('');
   }
 
+  onSimulatedLogin(): void {
+    const nom = this.loginProfile.nom.trim() || 'Jean Dupont';
+    const email = this.loginProfile.email.trim() || 'jean.dupont@test.fr';
+
+    this.store.dispatch(new Login({ email, nom }));
+    this.router.navigate(['/pollutions']);
+  }
+
   onSubmit(formValid: boolean | null): void {
+    if (this.isLoginMode()) {
+      if (!formValid) {
+        return;
+      }
+      this.onSimulatedLogin();
+      return;
+    }
+
     if (!formValid) {
       return;
     }
 
-    if (this.isLoginMode()) {
-      // Mode Connexion
-      this.signupService.login({ login: this.user.login, password: this.user.password }).subscribe({
-        next: (response) => {
-          this.errorMessage.set('');
-          const loggedInUser: UserData = {
-            ...this.user,
-            ...response,
-          };
-          this.authService.setSession(loggedInUser);
-          this.signupSuccess.emit(loggedInUser);
-          this.router.navigate(['/pollutions']);
-        },
-        error: (err) => {
-          console.error('Erreur lors de la connexion', err);
-          const msg = err.error?.message || 'Identifiant ou mot de passe incorrect.';
-          this.errorMessage.set(msg);
-        },
-      });
-    } else {
-      // Mode Inscription
-      if (this.user.password !== this.user.passwordConfirm) {
-        this.errorMessage.set('Les mots de passe ne correspondent pas.');
-        return;
-      }
-
-      this.signupService.signUp(this.user).subscribe({
-        next: (response) => {
-          this.errorMessage.set('');
-          const registeredUser: UserData = {
-            ...this.user,
-            ...response,
-          };
-          this.authService.setSession(registeredUser);
-          this.signupSuccess.emit(registeredUser);
-          this.router.navigate(['/bienvenue']);
-        },
-        error: (err) => {
-          console.error("Erreur lors de l'inscription", err);
-          const msg = err.error?.message || "Une erreur est survenue lors de l'inscription.";
-          this.errorMessage.set(msg);
-        },
-      });
+    if (this.user.password !== this.user.passwordConfirm) {
+      this.errorMessage.set('Les mots de passe ne correspondent pas.');
+      return;
     }
-  }
 
-  resetForm(): void {
-    this.user = {
-      login: '',
-      password: '',
-      passwordConfirm: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-    };
-    this.errorMessage.set('');
+    const { passwordConfirm, ...payload } = this.user;
+
+    this.signupService.signUp(payload).subscribe({
+      next: (response) => {
+        this.errorMessage.set('');
+        const fullName = `${response.firstName} ${response.lastName}`.trim();
+        this.store.dispatch(
+          new Login({
+            email: response.email,
+            nom: fullName || response.login,
+          })
+        );
+        this.signupSuccess.emit(response);
+        this.router.navigate(['/bienvenue']);
+      },
+      error: (err) => {
+        console.error("Erreur lors de l'inscription", err);
+        const msg = err.error?.message || "Une erreur est survenue lors de l'inscription.";
+        this.errorMessage.set(msg);
+      },
+    });
   }
 }

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/Auth/auth.service';
-import type { UserData } from '../types/types';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../states/auth/auth.state';
 
 @Component({
   selector: 'app-bienvenue',
@@ -11,15 +11,12 @@ import type { UserData } from '../types/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Bienvenue {
-  private authService = inject(AuthService);
+  private store = inject(Store);
   private router = inject(Router);
 
-  @Input() data?: UserData | null;
   @Output() continue = new EventEmitter<void>();
 
-  readonly userData = computed<UserData | null>(() => {
-    return this.data ?? this.authService.currentUser();
-  });
+  readonly user = this.store.selectSignal(AuthState.user);
 
   onBienvenueClick(): void {
     this.continue.emit();

@@ -18,8 +18,8 @@
   </div>
 
   <div class="nav-actions">
-    @if (currentUser(); as user) {
-      <span class="user-greeting">{{ user.firstName }} {{ user.lastName }}</span>
+    @if (username()) {
+      <span class="user-greeting">{{ username() }}</span>
     }
     <button type="button" class="btn-logout" (click)="onLogout()">
       Déconnexion

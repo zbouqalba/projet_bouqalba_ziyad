@@ -1,37 +1,40 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, CanMatchFn, Router } from '@angular/router';
-import { AuthService } from '../services/Auth/auth.service';
+import { Store } from '@ngxs/store';
+import { AuthState } from '../states/auth/auth.state';
 
 export const authGuard: CanActivateFn = () => {
-  const authService = inject(AuthService);
+  const store = inject(Store);
   const router = inject(Router);
 
-  if (authService.isAuthenticated()) {
+  const isAuthenticated = store.selectSnapshot(AuthState.isAuthenticated);
+  if (isAuthenticated) {
     return true;
   }
 
-  return router.createUrlTree(['/signup']);
+  return router.createUrlTree(['/login']);
 };
 
 export const authMatchGuard: CanMatchFn = () => {
-  const authService = inject(AuthService);
+  const store = inject(Store);
   const router = inject(Router);
 
-  if (authService.isAuthenticated()) {
+  const isAuthenticated = store.selectSnapshot(AuthState.isAuthenticated);
+  if (isAuthenticated) {
     return true;
   }
 
-  return router.createUrlTree(['/signup']);
+  return router.createUrlTree(['/login']);
 };
 
 export const guestGuard: CanActivateFn = () => {
-  const authService = inject(AuthService);
+  const store = inject(Store);
   const router = inject(Router);
 
-  if (!authService.isAuthenticated()) {
+  const isAuthenticated = store.selectSnapshot(AuthState.isAuthenticated);
+  if (!isAuthenticated) {
     return true;
   }
 
   return router.createUrlTree(['/pollutions']);
 };
-
